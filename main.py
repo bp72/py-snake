@@ -1,8 +1,8 @@
 import sys
 import random
-from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QLabel, QMessageBox
-from PyQt5.QtGui import QPainter, QPen, QBrush
-from PyQt5.QtCore import Qt, QPoint, QTimer
+from PyQt6.QtWidgets import QWidget, QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QLabel, QMessageBox
+from PyQt6.QtGui import QPainter, QPen, QBrush
+from PyQt6.QtCore import Qt, QPoint, QTimer
 
 
 class SnakeBody(object):
@@ -174,7 +174,7 @@ class Snake(QWidget):
         self.max_y = snakeSize*(fieldSize+2)
         self.timer = None
         self.pause = False
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.initGame()
         self.initUI()
 
@@ -197,15 +197,15 @@ class Snake(QWidget):
         self.show()
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Left and self.direction in (0, 1, 3):
+        if event.key() == Qt.Key.Key_Left and self.direction in (0, 1, 3):
             self.direction = 0
-        elif event.key() == Qt.Key_Up and self.direction in (0, 1, 2):
+        elif event.key() == Qt.Key.Key_Up and self.direction in (0, 1, 2):
             self.direction = 1
-        elif event.key() == Qt.Key_Right and self.direction in (1, 2, 3):
+        elif event.key() == Qt.Key.Key_Right and self.direction in (1, 2, 3):
             self.direction = 2
-        elif event.key() == Qt.Key_Down and self.direction in (0, 2, 3):
+        elif event.key() == Qt.Key.Key_Down and self.direction in (0, 2, 3):
             self.direction = 3
-        elif event.key() == Qt.Key_Pause:
+        elif event.key() == Qt.Key.Key_Pause:
             self.pause = not self.pause
             if self.pause:
                 self.timer.stop()
@@ -221,9 +221,9 @@ class Snake(QWidget):
         buttonReply = QMessageBox.question(
             self,
             'Game over',
-            "Again?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+            "Again?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No
         )
-        if buttonReply == QMessageBox.Yes:
+        if buttonReply == QMessageBox.StandardButton.Yes:
             self.initGame()
             self.initUI()
         else:
@@ -250,7 +250,7 @@ class Snake(QWidget):
         self.update()
 
     def mouseMoveEvent(self, e):
-        print(f'point: x={e.x()} y={e.y()}')
+        print(f'point: x={e.pos().x()} y={e.pos().y()}')
 
     def paintEvent(self, e):
         paint = QPainter(self)
@@ -260,8 +260,8 @@ class Snake(QWidget):
         self.setLabelValues()
 
     def drawBorderAndField(self, paint):
-        paint.setPen(QPen(Qt.darkGreen, self.snakeSize, Qt.SolidLine))
-        paint.setBrush(QBrush(Qt.yellow, Qt.DiagCrossPattern))
+        paint.setPen(QPen(Qt.GlobalColor.darkGreen, self.snakeSize, Qt.PenStyle.SolidLine))
+        paint.setBrush(QBrush(Qt.GlobalColor.yellow, Qt.BrushStyle.DiagCrossPattern))
         paint.drawRect(
             self.snakeSize,
             self.snakeSize,
@@ -271,12 +271,12 @@ class Snake(QWidget):
 
     def drawBunny(self, paint):
         bunny = QPoint(self.meal.x, self.meal.y)
-        paint.setPen(QPen(Qt.blue, self.snakeSize))
+        paint.setPen(QPen(Qt.GlobalColor.blue, self.snakeSize))
         paint.drawPoint(bunny)
 
     def drawSnake(self, paint):
-        paint.setPen(QPen(Qt.red, self.snakeSize, Qt.DotLine))
-        paint.setBrush(QBrush(Qt.lightGray, Qt.Dense5Pattern))
+        paint.setPen(QPen(Qt.GlobalColor.red, self.snakeSize, Qt.PenStyle.DotLine))
+        paint.setBrush(QBrush(Qt.GlobalColor.lightGray, Qt.BrushStyle.Dense5Pattern))
         size = self.size()
 
         head = self.snakebody.head
@@ -294,4 +294,4 @@ class Snake(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = SnakeApp()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

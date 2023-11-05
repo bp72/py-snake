@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "py-snake"
+version = "0.1.0"
+description = "This is an implementation of classic snake game using python and PyQt"
+authors = ["Pavel Bitiukov <pavleg.bityukov@gmail.com>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+pyqt6 = "^6.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
